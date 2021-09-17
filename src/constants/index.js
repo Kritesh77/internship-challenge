@@ -3,3 +3,5 @@ export const COLOR_RANGE_MAX = 7;
 export const COLOR_CODE_INCREMENT = 100;
 export const TOTAL_COLOR_RANGE = 4;
 export const RANGE_STARTING_POINT = 0;
+export const PROFIT_COLOR = "green";
+export const LOSS_COLOR = "red";

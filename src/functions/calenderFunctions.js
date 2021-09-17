@@ -20,14 +20,15 @@ export function getMonthlyDataArray(data) {
     } else {
       //push the prev month array to final array and make a new month array to start afresh
       monthArray.push(obj);
-
       finalArray.push(monthArray);
       var monthArray = new Array();
       //pushing the first element in the new month array
     }
   }
-
-  const finalFinalArray = finalArray.map((monthly) => {
+  return finalArray;
+}
+export function getMonthlyArrayMappedWithColorCode(monthArray) {
+  const finalFinalArray = monthArray.map((monthly) => {
     const arr = monthly.map((d) => d.pnl);
     const min = Math.min(...arr);
     const max = Math.max(...arr);
@@ -40,13 +41,13 @@ export function getMonthlyDataArray(data) {
       var colorCode = 0;
       if (data.pnl > 0) {
         for (let x of colorRangeArrayPositive) {
-          if (data.pnl > x) {
+          if (data.pnl >= x) {
             colorCode += COLOR_CODE_INCREMENT;
           }
         }
       } else if (data.pnl < 0) {
-        for (let x of colorRangeArrayPositive) {
-          if (data.pnl < x) {
+        for (let x of colorRangeArrayNegative) {
+          if (data.pnl <= x) {
             colorCode += COLOR_CODE_INCREMENT;
           }
         }
@@ -54,17 +55,13 @@ export function getMonthlyDataArray(data) {
       const obj = {
         date: data.date,
         pnl: data.pnl,
-        colorCode,
+        colorCode: colorCode || 100,
       };
       // console.log(data.pnl, colorCode);
       return obj;
     });
+    console.log(colorRangeArrayPositive, colorRangeArrayNegative);
     return colorCodedMonthlyArray;
-    // console.log(colorRangeArrayPositive, colorRangeArrayNegative);
   });
   return finalFinalArray;
 }
-//count will be between 0-50,000
-//0-10,000 -> green-100;
-//10,000-20,000 -> green-200;
-//40,000-50,000 ->green-500
